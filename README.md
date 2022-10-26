@@ -177,6 +177,7 @@ The test is divided into three parts, and each test is run for each tabs within 
 The test code is within the `askui-test/demo-automation.ts`. Copy and paste the code into your askui test code.
 - We start the test automation from the very first tab of our demo-app.
 ![demo-first-tab](images/demo-first-tab.jpeg)
+
 *image: First tab of the demo-app*
 - In order to type into a textfield, we first need to get the focus on the desired textfield. We can achieve it by running the code below:
 ```ts
@@ -235,6 +236,7 @@ Notice that we have to scroll down the page before we can see the next textfield
 ### 2. Datepicker
 - After running the test code above, we should see the demo app swiped to the `Datepicker` tab.
 ![demo-second-tab](images/demo-second-tab.jpeg)
+
 *image: Datepicker tab of the demo app*
 
 - First, we scroll the page down in order to see the date picker widget:
@@ -279,6 +281,8 @@ Notice that we have to scroll down the page before we can see the next textfield
 ### 3. Take a picture with the camera
 - In the final tab `Camera`, we can launch the device's camera and take a picture by pressing the record button.
 ![Camera-tab](images/demo-third-tab.jpeg)
+
+*image: Camera tab of the demo app*
 ```ts
         // Click on the button 'Take a Picture', then it will launch the camera
         await aui.click().button().contains().text().withText('Take a Picture').exec();
