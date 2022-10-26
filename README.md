@@ -53,8 +53,6 @@ dependencies:
 flutter run
  ```
 
-8. **Set the device to landscape mode**. askui currently works only with landscape mode, meaning that the width of the captured image should be bigger than the height. If you test in portrait mode, then it will run into an issue.
-
 Now you should see the demo app running on your android device.
 
 
@@ -87,8 +85,9 @@ adb -s <your device id> shell ime enable com.android.adbkeyboard/.AdbIME
 
 
 ### 3. Setup askui
-1. Setup askui by following [these steps](https://docs.askui.com/docs/general/Getting%20Started/getting-started).
-2. We need to run the UiController directly with an extra argument to specify the runtime mode, as the current version of askui(ver. 0.3.2) doesn't provide the api for running it with the runtime argument yet. <br><br>From within your npm project path, go to the directory that contains the askui-ui-controller binary, and run `./askui-ui-controller -r android`
+1. Setup askui by following the [Getting Started Guide](https://docs.askui.com/docs/general/Getting%20Started/getting-started).
+2. We need to run the UiController directly with an extra argument to specify the runtime mode, as the current version of askui(ver. 0.4) doesn't provide the api for running it with the runtime argument yet.
+From within your npm project path, go to the directory that contains the askui-ui-controller binary, and run `./askui-ui-controller -r android`
 ```bash
 cd <YOUR_PROJECT_DIRECTORY>/node_modules/askui/dist/release/latest/<YOUR_PLATFORM>
 ./askui-ui-controller -r android
@@ -105,7 +104,7 @@ npx jest test/my-first-askui-test-suite.test.ts --config ./test/jest.config.ts
 ```
 
 3. If you got them both(emulator and UiController) running, then we are ready to go for the UI automation.
-If you are working with the test code from our [official docs](https://docs.askui.com/docs/general/Getting%20Started/writing-your-first-test/), then you need to deactivate a few lines of the code in `test/helper/jest.setup.ts` that is running the uiController, because we are already running it manually in the previous step.
+If you are working with the test code from our [official docs](https://docs.askui.com/docs/general/Getting%20Started/writing-your-first-test/), then you need to deactivate a few lines of the code in `test/helper/jest.setup.ts` that is running the UiController, because we are already running it manually in the previous step.
 ```ts
 // file location: test/helper/jest.setup.ts
 // comment out every line that uses uiController
@@ -170,14 +169,14 @@ The test is divided into three parts, and each test is run for each tabs within 
 1. **Try to annotate** : Use `await aui.annotateInteractively();` or `await aui.annotate();` in order to see how askui is understanding the visible elements on your screen. By using `await aui.annotate()`, the result of the annotation will be saved in `report/` as an HTML file.
 2. **Be aware of the screen size of your device** : askui understands your application based on the screen shown and captured. Therefore, in some occasions, you may want to know your screen size in order to e.g. properly scroll or swipe within your application. You may need to change the numbers for the `input swipe` command within the provided test code, so that it suits the screen size of your device.
 
-    - *tip: If you are using a device with a bigger screen e.g. Tablet, then the screen of your test device (real android device or emulator) might be big enough to see the whole page without scrolling. Then, you can remove/comment out the code lines that are scrolling the page.*
+    - *tip: If you are using a device with a bigger screen e.g. Tablet, then the screen of your test device (real android device or emulator) might be big enough to see the whole page without scrolling.*
 3. **Try to select the elements by its text**
 
 
 ### 1. Click and Type
 The test code is within the `askui-test/demo-automation.ts`. Copy and paste the code into your askui test code.
 - We start the test automation from the very first tab of our demo-app.
-![demo-first-tab](images/demo-first-tab.png)
+![demo-first-tab](images/demo-first-tab.jpeg)
 *image: First tab of the demo-app*
 - In order to type into a textfield, we first need to get the focus on the desired textfield. We can achieve it by running the code below:
 ```ts
@@ -196,21 +195,10 @@ Notice that we have to scroll down the page before we can see the next textfield
         await aui.type('askui').exec();
         await aui.click().text().withText('Enter your email').exec();
         await aui.type('askui@askui.com').exec();
-        /*  Scroll down the page
-            - execOnShell() can run shell commands within the device via adb.
-            - Note that, you have to adjust the four numeric parameters,
-              in order to make it fit to your device's screen.
-            - The syntax is:
-                input swipe <startX> <startY> <endX> <endY>
-            - Depending on the screen size of your device,
-              the coordinates should stay within the scrollable area of the app.
-              i.e. the 'Tabbar' at the top of the demo app is not scrollable.
-        */
-        await aui.execOnShell('input swipe 300 600 300 300').exec();
         // Click and type the address
         await aui.click().text().withText('Enter your address').exec();
         await aui.type('Haid-und-Neu-Straße 18').exec();
-        // Pressing enter is the equivalent to pressing the return button on the on-screen-keyboard
+        // Pressing enter is the equivelant to pressing the return button on the on-screen-keyboard
         // This gets rid of the focus from the textfield
         await aui.pressAndroidKey('enter').exec();
 ```
@@ -219,59 +207,55 @@ Notice that we have to scroll down the page before we can see the next textfield
 - After filling up the textfields, we can push the buttons at the bottom of the page:
 ```ts
         // Press the 'Submit' button
-        await aui.click().button().contains().text().withText('Submit').exec();
+        await aui.click().text().withText('Submit').exec();
         // We will have a popup window that has two buttons. Press the 'Refuse' button
         await aui.click().text().withText('Refuse').exec();
-        // We scroll down further in order to see more buttons
-        // Again, if this scrolling doesn't work for you, try to adjust the numbers
-        // Also note that, you don't need to scroll if your device is big enough to
-        // show the whole page at once
-        await aui.execOnShell('input swipe 300 600 300 100').exec();
         // Here we press multiple of toggle buttons one by one
         await aui.click().text().withText('Banana').exec();
         await aui.click().text().withText('Mango').exec();
         await aui.click().text().withText('Sunny').exec();
         await aui.click().text().withText('Rainy').exec();
         await aui.click().text().withText('Windy').exec();
-        // We swipe the page horizontally.
-        // Make sure that you use the proper numbers for your screen.
-        await aui.execOnShell('input swipe 1500 600 300 600').exec();
-        await aui.execOnShell('input swipe 1500 600 300 600').exec();
+        // Attention for swiping!
+        /*  Swipe/scroll within the page
+            - execOnShell() can run shell commands within the device via adb.
+            - Note that, you have to adjust the four numeric parameters,
+              in order to make it fit to your device's screen.
+            - The syntax is:
+                input swipe <startX> <startY> <endX> <endY>
+            - Depending on the screen size of your device,
+              the coordinates should stay within the scrollable/swipeable area of the app.
+              i.e. the 'Tabbar' at the top of the demo app is not scrollable.
+        */
+        // Here we swipe the page two times in a row
+        await aui.execOnShell('input swipe 1000 1000 100 1000').exec();
+        await aui.execOnShell('input swipe 1000 1000 100 1000').exec();
 ```
 
 ### 2. Datepicker
 - After running the test code above, we should see the demo app swiped to the `Datepicker` tab.
-![demo-second-tab](images/demo-second-tab.png)
+![demo-second-tab](images/demo-second-tab.jpeg)
 *image: Datepicker tab of the demo app*
 
-- First, we scroll the page down in order to see the date picker widget.
+- First, we scroll the page down in order to see the date picker widget:
 ```ts
         // First, we type in the desired values into the textfields.
         await aui.click().text().withText('Title').exec();
         await aui.type('My vacation plan').exec();
-        // Again, if this scrolling doesn't work for you, try to adjust the numbers
-        // Also note that you don't need to scroll if your device is big enough to
-        // show the whole page at once
-        await aui.execOnShell('input swipe 300 600 300 300').exec();
         await aui.click().text().withText('Description').exec();
         await aui.type('0. Drink a lot of water').exec();
         await aui.pressAndroidKey('tab').exec();
-        // Here we scroll the page in order to see the date picker.
-        // Again, if this scrolling doesn't work for you, try to adjust the numbers
-        // Also note that, you don't need to scroll if your device is big enough to
-        // show the whole page at once
-        await aui.execOnShell('input swipe 300 600 300 200').exec();
 ```
 
-- After running the test code above, we should see two different date picker widgets that are represented with `edit` buttons.
+- After running the test code above, we should see two different date picker widgets that are represented with `edit` buttons:
 
 ```ts
         // Second, we select a desired date from the Datepicker widget.
-        // Notice how we select the icon 'chevron right/left' to move to the next month.
+        // Notice how we select the icon 'chevron right/left' to shift the calendar month.
         await aui.click().text().withText('edit').nearestTo().text().withText('Depature').exec(); // this will open up the calendar
         await aui.click().icon().withText('chevron right').exec(); // within the calendar, we push the > icon on the top right corner
         await aui.click().icon().withText('chevron right').exec();
-        await aui.click().text().withText('20').exec(); // select 20
+        await aui.click().text().withText('7').exec(); // select 7
         await aui.click().text().withText('ok').exec(); // then, press OK
         // Repeat the step for the next Datepicker widget.
         await aui.click().text().withText('edit').nearestTo().text().withText('Return').exec();
@@ -280,28 +264,21 @@ Notice that we have to scroll down the page before we can see the next textfield
         await aui.click().icon().withText('chevron right').exec();
         await aui.click().text().withText('5').exec();
         await aui.click().text().withText('ok').exec();
-        // We scroll further down, and again, make sure whether your device needs to scroll. 
-        await aui.execOnShell('input swipe 300 600 300 200').exec();
-        await aui.click().checkboxUnchecked().nearestTo().text().withText('Brushed Teeth').exec();
-        await aui.click().switchDisabled().nearestTo().text().withText('Enable feature').exec();
-        await aui.execOnShell('input swipe 1500 600 300 600').exec();
 ```
 
-- Let's go further below to the bottom of the page, and then interact with more interfaces.
+- Let's go further below to the bottom of the page, and then interact with more interfaces:
 ```ts
-        // scroll down the page
-        // Again, if this scrolling doesn't work for you, try to adjust the numbers
-        await aui.execOnShell('input swipe 300 600 300 500').exec();
-
         // click and check the checkbox
         await aui.click().checkboxUnchecked().nearestTo().text().withText('Brushed Teeth').exec();
         // finally, we turn on the switch
         await aui.click().switchDisabled().nearestTo().text().withText('Enable feature').exec();
+        // Swipe the page to the Camera tab
+        await aui.execOnShell('input swipe 1000 1000 100 1000').exec();
 ```
 
 ### 3. Take a picture with the camera
 - In the final tab `Camera`, we can launch the device's camera and take a picture by pressing the record button.
-![Camera-tab](images/demo-third-tab.png)
+![Camera-tab](images/demo-third-tab.jpeg)
 ```ts
         // Click on the button 'Take a Picture', then it will launch the camera
         await aui.click().button().contains().text().withText('Take a Picture').exec();
@@ -329,18 +306,6 @@ describe('jest with askui', () => {
         await aui.type('askui').exec();
         await aui.click().text().withText('Enter your email').exec();
         await aui.type('askui@askui.com').exec();
-        // Attention for scrolling!
-        /*  Scroll down the page
-            - execOnShell() can run shell commands within the device via adb.
-            - Note that, you have to adjust the four numeric parameters,
-              in order to make it fit to your device's screen.
-            - The syntax is:
-                input swipe <startX> <startY> <endX> <endY>
-            - Depending on the screen size of your device,
-              the coordinates should stay within the scrollable area of the app.
-              i.e. the 'Tabbar' at the top of the demo app is not scrollable.
-        */
-        await aui.execOnShell('input swipe 300 600 300 100').exec();
         // Click and type the address
         await aui.click().text().withText('Enter your address').exec();
         await aui.type('Haid-und-Neu-Straße 18').exec();
@@ -348,24 +313,29 @@ describe('jest with askui', () => {
         // This gets rid of the focus from the textfield
         await aui.pressAndroidKey('enter').exec();
         // Press the 'Submit' button
-        await aui.click().button().contains().text().withText('Submit').exec();
+        await aui.click().text().withText('Submit').exec();
         // We will have a popup window that has two buttons. Press the 'Refuse' button
         await aui.click().text().withText('Refuse').exec();
-        // We scroll down further in order to see more buttons
-        // Again, if this scrolling doesn't work for you, try to adjust the numbers
-        // Also note that, you don't need to scroll if your device is big enough to
-        // show the whole page at once
-        await aui.execOnShell('input swipe 300 600 300 100').exec();
         // Here we press multiple of toggle buttons one by one
         await aui.click().text().withText('Banana').exec();
         await aui.click().text().withText('Mango').exec();
         await aui.click().text().withText('Sunny').exec();
         await aui.click().text().withText('Rainy').exec();
         await aui.click().text().withText('Windy').exec();
-        // We swipe the tab horizontally.
-        // Make sure that you use the proper numbers for your screen.
-        await aui.execOnShell('input swipe 1500 600 300 600').exec();
-        await aui.execOnShell('input swipe 1500 600 300 600').exec();
+        // Attention for swiping!
+        /*  Swipe/scroll within the page
+            - execOnShell() can run shell commands within the device via adb.
+            - Note that, you have to adjust the four numeric parameters,
+              in order to make it fit to your device's screen.
+            - The syntax is:
+                input swipe <startX> <startY> <endX> <endY>
+            - Depending on the screen size of your device,
+              the coordinates should stay within the scrollable/swipeable area of the app.
+              i.e. the 'Tabbar' at the top of the demo app is not scrollable.
+        */
+        // Here we swipe the page two times in a row
+        await aui.execOnShell('input swipe 1000 1000 100 1000').exec();
+        await aui.execOnShell('input swipe 1000 1000 100 1000').exec();
     });
 
 
@@ -373,25 +343,15 @@ describe('jest with askui', () => {
         // First, we type in the desired values into the textfields.
         await aui.click().text().withText('Title').exec();
         await aui.type('My vacation plan').exec();
-        // Again, if this scrolling doesn't work for you, try to adjust the numbers
-        // Also note that you don't need to scroll if your device is big enough to
-        // show the whole page at once
-        await aui.execOnShell('input swipe 300 600 300 300').exec();
         await aui.click().text().withText('Description').exec();
         await aui.type('0. Drink a lot of water').exec();
         await aui.pressAndroidKey('tab').exec();
-        // Here we scroll the page in order to see the date picker.
-        // Again, if this scrolling doesn't work for you, try to adjust the numbers
-        // Also note that, you don't need to scroll if your device is big enough to
-        // show the whole page at once
-        await aui.execOnShell('input swipe 300 600 300 200').exec();
-    
         // Second, we select a desired date from the Datepicker widget.
         // Notice how we select the icon 'chevron right/left' to shift the calendar month.
         await aui.click().text().withText('edit').nearestTo().text().withText('Depature').exec(); // this will open up the calendar
         await aui.click().icon().withText('chevron right').exec(); // within the calendar, we push the > icon on the top right corner
         await aui.click().icon().withText('chevron right').exec();
-        await aui.click().text().withText('20').exec(); // select 20
+        await aui.click().text().withText('7').exec(); // select 7
         await aui.click().text().withText('ok').exec(); // then, press OK
         // Repeat the step for the next Datepicker widget.
         await aui.click().text().withText('edit').nearestTo().text().withText('Return').exec();
@@ -400,14 +360,13 @@ describe('jest with askui', () => {
         await aui.click().icon().withText('chevron right').exec();
         await aui.click().text().withText('5').exec();
         await aui.click().text().withText('ok').exec();
-        // We scroll further down, and again, make sure whether your device needs to scroll. 
-        await aui.execOnShell('input swipe 300 600 300 200').exec();
         // click and check the checkbox
         await aui.click().checkboxUnchecked().nearestTo().text().withText('Brushed Teeth').exec();
         // finally, we turn on the switch
         await aui.click().switchDisabled().nearestTo().text().withText('Enable feature').exec();
-        // after that, we move to the next tab by swiping
-        await aui.execOnShell('input swipe 1500 600 300 600').exec();
+        // Swipe the page to the Camera tab
+        await aui.execOnShell('input swipe 1000 1000 100 1000').exec();
+    
     });
 
     it('should take a picture', async ()=>{
