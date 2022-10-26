@@ -10,7 +10,7 @@ Available examples include:
 ![live-demo.gif](images/inaction-fast.gif)
 
 
-## Instruction
+## Setup
 
 ### 1. Setup Flutter demo app
 1. [Install Flutter](https://docs.flutter.dev/get-started/install)
@@ -168,7 +168,8 @@ The test is divided into three parts, and each test is run for each tabs within 
 ##### General tips for using askui as a more friendly tool:
 1. **Try to annotate** : Use `await aui.annotateInteractively();` or `await aui.annotate();` in order to see how askui is understanding the visible elements on your screen. By using `await aui.annotate()`, the result of the annotation will be saved in `report/` as an HTML file.
 2. **Be aware of the screen size of your device** : askui understands your application based on the screen shown and captured. Therefore, in some occasions, you may want to know your screen size in order to e.g. properly scroll or swipe within your application. You may need to change the numbers for the `input swipe` command within the provided test code, so that it suits the screen size of your device.
->> If you are using a device with a bigger screen e.g. a Tablet, then the screen of your test device(real android device or emulator) might be big enough to see the whole page without scrolling. Then, you can remove/comment out the code lines that are scrolling the page. 
+
+    - *tip: If you are using a device with a bigger screen e.g. Tablet, then the screen of your test device(real android device or emulator) might be big enough to see the whole page without scrolling. Then, you can remove/comment out the code lines that are scrolling the page.*
 3. **Try to select the elements by its text**
 
 
