@@ -1,12 +1,12 @@
-# Askui automation example with Flutter
-This repository contains examples of using [askui](https://www.askui.com/) to automate an android app built with [Flutter](https://flutter.dev/). To run the example, setup the provided demo app by following the instruction. This example assumes that you already have the [Android Emulator](https://developer.android.com/studio/run/emulator) installed.
+# Askui Automation Example with Flutter
+This repository contains examples of using [askui](https://www.askui.com/) to automate an android app built with [Flutter](https://flutter.dev/). To run the example, set up the provided demo app by following the instructions. This example assumes that you already have the [Android Emulator](https://developer.android.com/studio/run/emulator) installed.
 
 Available examples include:
 - Click/Touch automation
 - Type automation
 - Swipe automation
 
-#### Live demo in action (playback speed x3)
+#### Live Demo in Action (playback speed x3)
 ![live-demo.gif](images/inaction-fast.gif)
 
 
@@ -24,7 +24,7 @@ cd demo_app
 3. Install dependencies for the Flutter demo app:
 ```bash
 # run this command inside the flutter project directory `demo_app/`
-flutter pub add camera intl;
+flutter pub add camera intl
 ```
 4. In order to use the camera, we need to set the `minSdkVersion` in `android/app/build.gradle`:
 ```groovy
@@ -88,7 +88,7 @@ adb -s <your device id> shell ime enable com.android.adbkeyboard/.AdbIME
 
 ### 3. Setup askui
 1. Setup askui by following [these steps](https://docs.askui.com/docs/general/Getting%20Started/getting-started).
-2. We need to run the uiController directly with an extra argument to specify the runtime mode, as the current version of askui(ver. 0.3.2) doesn't provide the api for running it with the runtime argument yet. <br><br>From within your npm project path, go to the directory that contains the askui-ui-controller binary, and run `./askui-ui-controller -r android`
+2. We need to run the UiController directly with an extra argument to specify the runtime mode, as the current version of askui(ver. 0.3.2) doesn't provide the api for running it with the runtime argument yet. <br><br>From within your npm project path, go to the directory that contains the askui-ui-controller binary, and run `./askui-ui-controller -r android`
 ```bash
 cd <YOUR_PROJECT_DIRECTORY>/node_modules/askui/dist/release/latest/<YOUR_PLATFORM>
 ./askui-ui-controller -r android
@@ -104,7 +104,8 @@ cd node_modules/askui/dist/release/latest/darwin/askui-ui-controller.app/Content
 npx jest test/my-first-askui-test-suite.test.ts --config ./test/jest.config.ts
 ```
 
-3. If you got them both(emulator and uiController) running, then we are ready to go for the UI automation.<br><br>If you are working with the test code from our [official docs](https://docs.askui.com/docs/general/Getting%20Started/writing-your-first-test/), then you need to deactivate few lines of the code in `test/helper/jest.setup.ts` that is running the uiController, because we are already running it manually in the previous step.
+3. If you got them both(emulator and UiController) running, then we are ready to go for the UI automation.
+If you are working with the test code from our [official docs](https://docs.askui.com/docs/general/Getting%20Started/writing-your-first-test/), then you need to deactivate a few lines of the code in `test/helper/jest.setup.ts` that is running the uiController, because we are already running it manually in the previous step.
 ```ts
 // file location: test/helper/jest.setup.ts
 // comment out every line that uses uiController
@@ -153,7 +154,7 @@ npx jest test/my-first-askui-test-suite.test.ts --config ./test/jest.config.ts;
 ```
 
 --------
-## Breaking down the askui test code 
+## Breaking Down the Askui Test Code 
 
 This chapter will walk you through the provided `askui-test/demo-automation.ts` step by step.
 The test is divided into three parts, and each test is run for each tabs within the demo app:
@@ -169,7 +170,7 @@ The test is divided into three parts, and each test is run for each tabs within 
 1. **Try to annotate** : Use `await aui.annotateInteractively();` or `await aui.annotate();` in order to see how askui is understanding the visible elements on your screen. By using `await aui.annotate()`, the result of the annotation will be saved in `report/` as an HTML file.
 2. **Be aware of the screen size of your device** : askui understands your application based on the screen shown and captured. Therefore, in some occasions, you may want to know your screen size in order to e.g. properly scroll or swipe within your application. You may need to change the numbers for the `input swipe` command within the provided test code, so that it suits the screen size of your device.
 
-    - *tip: If you are using a device with a bigger screen e.g. Tablet, then the screen of your test device(real android device or emulator) might be big enough to see the whole page without scrolling. Then, you can remove/comment out the code lines that are scrolling the page.*
+    - *tip: If you are using a device with a bigger screen e.g. Tablet, then the screen of your test device (real android device or emulator) might be big enough to see the whole page without scrolling. Then, you can remove/comment out the code lines that are scrolling the page.*
 3. **Try to select the elements by its text**
 
 
@@ -209,7 +210,7 @@ Notice that we have to scroll down the page before we can see the next textfield
         // Click and type the address
         await aui.click().text().withText('Enter your address').exec();
         await aui.type('Haid-und-Neu-Straße 18').exec();
-        // Pressing enter is the equivelant to pressing the return button on the on-screen-keyboard
+        // Pressing enter is the equivalent to pressing the return button on the on-screen-keyboard
         // This gets rid of the focus from the textfield
         await aui.pressAndroidKey('enter').exec();
 ```
