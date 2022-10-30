@@ -6,42 +6,45 @@ describe('jest with askui', () => {
     await aui.mouseLeftClick().exec();
     await aui.click().text().withText('Sign in').exec();
     await aui
-      .typeIn('<Username>')
+      .typeIn('<usename>',{isSecret: true, secretMask:'**'})
       .textfield()
       .below()
       .text()
       .withText('Username or email address')
       .exec();
-
     await aui
-      .typeIn('<Password>')
+      .pressKey('escape')
+      .exec()
+    await aui
+      .typeIn('<password>', {isSecret: true, secretMask:'**'})
       .textfield()
       .below()
       .text()
       .withText('Password')
       .exec();
-    
+
     await aui.pressKey('tab').exec();
     await aui.pressKey('enter').exec();
 
-    const codeElements = 
+    const codeElements =
       await auiAndroid
-       .get()
-       .text()
-       .below()
-       .text()
-       .withText('GitHub')
-       .exec();
+        .get()
+        .text()
+        .below()
+        .text()
+        .withText('GitHub')
+        .exec();
 
-    // Using code[0] here is ok
-    // It is the first element based on euclidean distance
-    // We have to replace the newline -> Format requirement!
-    const code = codeElements[0].text.replace(' ', '');
+    // sort the returned elements based on their ymin 
+    codeElements.sort((element1, element2)  => (element1.bndbox.ymin <= element2.bndbox.ymin? -1: 1 ))
+    // Using code[0], so the nearest element is selected
+    // strip all non numeric characters from string
+    const code = codeElements[0].text.replace(/\D/g, '');
     await aui
       .typeIn(code)
-      .textfield()
+      .text().withText("XXXXXX")
       .above()
-      .button()
+      .text()
       .withText('Verify')
       .exec();
   });

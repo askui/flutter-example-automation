@@ -1,4 +1,4 @@
-import { UiControlClient, UiController } from 'askui';
+import { AnnotationLevel, UiControlClient, UiController } from 'askui';
 
 // Server for controlling the operating system
 let uiController: UiController;
@@ -16,26 +16,20 @@ beforeAll(async () => {
      * Select the display you want to run your tests on, display 0 is your main display;
      * ignore if you have only one display
      */
-    display: 2,
-    port: 7007
+    //display: 1, enable it only when you have more then one display
+    port: 7007,
+
   });
 
   await uiController.start();
 
   aui = await UiControlClient.build({
-    credentials: {
-      workspaceId: '<your workspace id>',
-      token: '<your access token>',
-    },
-    uiControllerUrl:'http://127.0.0.1:7007'
+    uiControllerUrl: 'http://127.0.0.1:7007'
   });
 
   auiAndroid = await UiControlClient.build({
-    credentials: {
-      workspaceId: '<your workspace id>',
-      token: '<your access token>',
-    },
-    uiControllerUrl:'http://127.0.0.1:6769'
+    uiControllerUrl: 'http://127.0.0.1:6769',
+    'annotationLevel': AnnotationLevel.ON_FAILURE
   });
 
   await aui.connect();
@@ -43,7 +37,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await uiController.stop();
+  //await uiController.stop();
 
   aui.close();
   auiAndroid.close();
