@@ -16,7 +16,7 @@ beforeAll(async () => {
      * Select the display you want to run your tests on, display 0 is your main display;
      * ignore if you have only one display
      */
-    //display: 1, enable it only when you have more then one display
+    display: 1, //enable it only when you have more then one display
     port: 7007,
 
   });
@@ -28,8 +28,7 @@ beforeAll(async () => {
   });
 
   auiAndroid = await UiControlClient.build({
-    uiControllerUrl: 'http://127.0.0.1:6769',
-    'annotationLevel': AnnotationLevel.ON_FAILURE
+    uiControllerUrl: 'http://127.0.0.1:6769'
   });
 
   await aui.connect();
@@ -37,7 +36,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  //await uiController.stop();
+  await uiController.stop();
 
   aui.close();
   auiAndroid.close();
