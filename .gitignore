@@ -24,4 +24,4 @@ doc/api/
 
 # MacOS
 .DS_Store
-2-factor-authentication/report/*
+report
