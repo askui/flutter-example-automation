@@ -5,6 +5,7 @@ It shows you how you can automate a Cross-Application + Cross-Device workflow.
 
 ## Prerequisites
 
+> * Start the ui controller for the desktop with the port `7007` and the android device with the port `6769`.
 > * External computer with a browser
 > * External Android device connected with your Android Development Bridge (ADB)
 > * External Android device with LastPass Authenticator App

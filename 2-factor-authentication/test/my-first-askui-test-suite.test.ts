@@ -1,7 +1,7 @@
 import { aui, auiAndroid } from './helper/jest.setup';
 
 describe('jest with askui', () => {
-  it('should click on text', async () => {
+  it('Login in Github', async () => {
 
     await aui.mouseLeftClick().exec();
     await aui.click().text().withText('Sign in').exec();
