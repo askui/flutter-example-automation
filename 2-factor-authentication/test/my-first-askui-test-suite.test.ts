@@ -6,7 +6,7 @@ describe('jest with askui', () => {
     await aui.mouseLeftClick().exec();
     await aui.click().text().withText('Sign in').exec();
     await aui
-      .typeIn('<usename>', { isSecret: true, secretMask: '**' })
+      .typeIn('<Username>', { isSecret: true, secretMask: '**' })
       .textfield()
       .below()
       .text()
