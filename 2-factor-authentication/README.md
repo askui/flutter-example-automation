@@ -11,6 +11,7 @@ It shows you how you can automate a Cross-Application + Cross-Device workflow.
 > * Enable the permission to take screenshots in the Authenticator App
 > * Github Account with 2 Factor Authentication enabled with the Authenticator App
 > * The English language configured and set on your computer devices
+> * Start the ui controller for the desktop with the port `7007` and the android device with the port `6769`.
 
 ## Disclaimer and Warning
 
