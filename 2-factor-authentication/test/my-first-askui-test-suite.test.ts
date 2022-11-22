@@ -6,7 +6,7 @@ describe('jest with askui', () => {
     await aui.mouseLeftClick().exec();
     await aui.click().text().withText('Sign in').exec();
     await aui
-      .typeIn('<Username>', { isSecret: true, secretMask: '**' })
+      .typeIn('askui-two-factor5', { isSecret: true, secretMask: '**' })
       .textfield()
       .below()
       .text()
@@ -16,7 +16,7 @@ describe('jest with askui', () => {
       .pressKey('escape')
       .exec()
     await aui
-      .typeIn('<password>', { isSecret: true, secretMask: '**' })
+      .typeIn('|N7Q&N>YTwG4', { isSecret: true, secretMask: '**' })
       .textfield()
       .below()
       .text()
@@ -53,8 +53,7 @@ describe('jest with askui', () => {
       .text()
       .withText('Verify')
       .exec();
-  }
-  );
+  });
 });
 
 
