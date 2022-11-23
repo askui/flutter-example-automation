@@ -12,16 +12,16 @@ beforeAll(async () => {
   aui = await UiControlClient.build({
     uiControllerUrl: 'http://127.0.0.1:7007',
     credentials: {
-      workspaceId: 'd928f70b-7ff0-4cea-b9f6-c6522a2eb492',
-      token: 'S7ZgaeBjuO8oARQSBhzb'
+      workspaceId: '<your workspace id>',
+      token: '<your access token>'
     }
   });
 
   auiAndroid = await UiControlClient.build({
     uiControllerUrl: 'http://127.0.0.1:6769',
     credentials: {
-      workspaceId: 'd928f70b-7ff0-4cea-b9f6-c6522a2eb492',
-      token: 'S7ZgaeBjuO8oARQSBhzb'
+      workspaceId: '<your workspace id>',
+      token: '<your access token>'
     }
   });
 
